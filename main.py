@@ -71,7 +71,6 @@ class DatabaseConfig:
 if __name__ == "__main__":
 
 
-    import os
 
     if os.name == 'nt':
         login_data_path = os.path.join(
